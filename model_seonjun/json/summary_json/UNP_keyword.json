@@ -1,0 +1,27 @@
+{
+  "ticker": "UNP",
+  "static_keywords": [
+    "railroad",
+    "union",
+    "companies",
+    "corporation",
+    "company",
+    "rail",
+    "chain",
+    "business",
+    "pacific",
+    "industrial"
+  ],
+  "dynamic_keywords": [
+    "accounting",
+    "corporation",
+    "union",
+    "consolidated",
+    "subsidiaries",
+    "railroad",
+    "subsidiary",
+    "financial",
+    "gaap",
+    "company"
+  ]
+}

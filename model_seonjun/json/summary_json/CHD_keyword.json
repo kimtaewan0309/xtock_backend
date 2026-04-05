@@ -1,0 +1,27 @@
+{
+  "ticker": "CHD",
+  "static_keywords": [
+    "church",
+    "dwight",
+    "company",
+    "headquartered",
+    "founded",
+    "brands",
+    "revenue",
+    "products",
+    "hammer",
+    "consumer"
+  ],
+  "dynamic_keywords": [
+    "detergents",
+    "detergent",
+    "deodorizer",
+    "products",
+    "soda",
+    "supplements",
+    "chemicals",
+    "shampoo",
+    "commercial",
+    "gummy"
+  ]
+}

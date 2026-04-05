@@ -1,0 +1,27 @@
+{
+  "ticker": "EME",
+  "static_keywords": [
+    "contractors",
+    "emcor",
+    "company",
+    "subsidiaries",
+    "business",
+    "industrial",
+    "revenues",
+    "united",
+    "consolidated",
+    "specialty"
+  ],
+  "dynamic_keywords": [
+    "subsidiaries",
+    "contractors",
+    "business",
+    "specialty",
+    "manufacturing",
+    "management",
+    "industrial",
+    "construction",
+    "operations",
+    "services"
+  ]
+}

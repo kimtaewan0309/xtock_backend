@@ -1,0 +1,27 @@
+{
+  "ticker": "BR",
+  "static_keywords": [
+    "broadridge",
+    "corporate",
+    "corporation",
+    "business",
+    "companies",
+    "investors",
+    "investor",
+    "broker",
+    "financial",
+    "technology"
+  ],
+  "dynamic_keywords": [
+    "securities",
+    "statements",
+    "financial",
+    "assumptions",
+    "litigation",
+    "expectations",
+    "operations",
+    "uncertainties",
+    "analysis",
+    "management"
+  ]
+}

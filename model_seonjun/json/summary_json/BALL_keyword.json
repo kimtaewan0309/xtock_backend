@@ -1,0 +1,27 @@
+{
+  "ticker": "BALL",
+  "static_keywords": [
+    "ball",
+    "corporation",
+    "suppliers",
+    "company",
+    "incorporated",
+    "manufactured",
+    "business",
+    "packaging",
+    "consolidated",
+    "industries"
+  ],
+  "dynamic_keywords": [
+    "accounting",
+    "consolidated",
+    "quarterly",
+    "gaap",
+    "statements",
+    "financial",
+    "transactions",
+    "operations",
+    "management",
+    "estimates"
+  ]
+}

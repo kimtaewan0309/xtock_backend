@@ -1,0 +1,27 @@
+{
+  "ticker": "OTIS",
+  "static_keywords": [
+    "business",
+    "sales",
+    "company",
+    "customers",
+    "manufacturing",
+    "busin",
+    "equipment",
+    "service",
+    "escalator",
+    "profit"
+  ],
+  "dynamic_keywords": [
+    "business",
+    "elevators",
+    "escalator",
+    "escalators",
+    "elevator",
+    "operations",
+    "management",
+    "customers",
+    "manufacturing",
+    "company"
+  ]
+}

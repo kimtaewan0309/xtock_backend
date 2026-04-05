@@ -1,0 +1,26 @@
+{
+  "ticker": "CCL",
+  "static_keywords": [
+    "business",
+    "overview",
+    "priorities",
+    "mission",
+    "values",
+    "summary",
+    "item",
+    "purpose",
+    "vision"
+  ],
+  "dynamic_keywords": [
+    "securities",
+    "statements",
+    "financial",
+    "risks",
+    "liability",
+    "uncertainties",
+    "operations",
+    "liquidity",
+    "forward",
+    "exchange"
+  ]
+}

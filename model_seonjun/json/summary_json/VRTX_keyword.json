@@ -1,0 +1,27 @@
+{
+  "ticker": "VRTX",
+  "static_keywords": [
+    "fibrosis",
+    "clinical",
+    "treatment",
+    "medicines",
+    "cf",
+    "disease",
+    "diseases",
+    "thalassemia",
+    "neuropathic",
+    "cystic"
+  ],
+  "dynamic_keywords": [
+    "fibrosis",
+    "clinical",
+    "medicines",
+    "thalassemia",
+    "disease",
+    "diseases",
+    "biotechnology",
+    "nephropathy",
+    "neuropathic",
+    "diabetes"
+  ]
+}

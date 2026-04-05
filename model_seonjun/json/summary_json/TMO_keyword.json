@@ -1,0 +1,27 @@
+{
+  "ticker": "TMO",
+  "static_keywords": [
+    "thermo",
+    "fisher",
+    "biotech",
+    "company",
+    "scientific",
+    "science",
+    "companies",
+    "business",
+    "customers",
+    "clinical"
+  ],
+  "dynamic_keywords": [
+    "securities",
+    "accounting",
+    "exchange",
+    "markets",
+    "audits",
+    "proceedings",
+    "acquisitions",
+    "statements",
+    "earnings",
+    "financial"
+  ]
+}

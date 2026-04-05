@@ -1,0 +1,27 @@
+{
+  "ticker": "ZTS",
+  "static_keywords": [
+    "zoetis",
+    "livestock",
+    "biodevices",
+    "poultry",
+    "animal",
+    "animals",
+    "products",
+    "infectives",
+    "sheep",
+    "vaccines"
+  ],
+  "dynamic_keywords": [
+    "livestock",
+    "veterinarians",
+    "animal",
+    "animals",
+    "commercialization",
+    "business",
+    "zoetis",
+    "products",
+    "pet",
+    "biodevices"
+  ]
+}

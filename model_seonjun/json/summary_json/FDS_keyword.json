@@ -1,0 +1,27 @@
+{
+  "ticker": "FDS",
+  "static_keywords": [
+    "factset",
+    "nyse",
+    "nasdaq",
+    "stock",
+    "corporate",
+    "founded",
+    "subsidiaries",
+    "company",
+    "fds",
+    "market"
+  ],
+  "dynamic_keywords": [
+    "securities",
+    "financial",
+    "quarterly",
+    "operations",
+    "reports",
+    "management",
+    "filings",
+    "consolidated",
+    "uncertainties",
+    "statements"
+  ]
+}

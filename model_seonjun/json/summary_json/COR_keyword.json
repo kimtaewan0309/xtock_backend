@@ -1,0 +1,27 @@
+{
+  "ticker": "COR",
+  "static_keywords": [
+    "pharmacies",
+    "cencora",
+    "pharmaceuticals",
+    "pharmaceutical",
+    "manufacturers",
+    "biotech",
+    "specialty",
+    "brand",
+    "corporation",
+    "providers"
+  ],
+  "dynamic_keywords": [
+    "risks",
+    "financial",
+    "risk",
+    "business",
+    "economic",
+    "uncertainties",
+    "operations",
+    "management",
+    "regulatory",
+    "operate"
+  ]
+}

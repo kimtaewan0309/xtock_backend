@@ -1,0 +1,27 @@
+{
+  "ticker": "HCA",
+  "static_keywords": [
+    "hca",
+    "hospitals",
+    "healthcare",
+    "companies",
+    "general",
+    "business",
+    "services",
+    "endoscopy",
+    "ambulatory",
+    "ascs"
+  ],
+  "dynamic_keywords": [
+    "disclosures",
+    "statements",
+    "expectations",
+    "securities",
+    "future",
+    "forward",
+    "financial",
+    "plans",
+    "quarterly",
+    "uncertainties"
+  ]
+}

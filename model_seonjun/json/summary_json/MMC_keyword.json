@@ -1,0 +1,27 @@
+{
+  "ticker": "MMC",
+  "static_keywords": [
+    "mclennan",
+    "companies",
+    "company",
+    "subsidiaries",
+    "marsh",
+    "firm",
+    "general",
+    "consolidated",
+    "business",
+    "leading"
+  ],
+  "dynamic_keywords": [
+    "mclennan",
+    "companies",
+    "subsidiaries",
+    "company",
+    "marsh",
+    "firm",
+    "consolidated",
+    "management",
+    "businesses",
+    "clients"
+  ]
+}

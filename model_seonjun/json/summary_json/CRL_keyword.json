@@ -1,0 +1,27 @@
+{
+  "ticker": "CRL",
+  "static_keywords": [
+    "future",
+    "forecasts",
+    "expectations",
+    "expect",
+    "uncertainties",
+    "predict",
+    "statements",
+    "predictions",
+    "anticipate",
+    "intend"
+  ],
+  "dynamic_keywords": [
+    "financial",
+    "quarterly",
+    "statements",
+    "risk",
+    "following",
+    "future",
+    "operations",
+    "discussed",
+    "filed",
+    "audited"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "ticker": "CBOE",
+  "static_keywords": [
+    "securities",
+    "markets",
+    "business",
+    "cboe",
+    "investment",
+    "trading",
+    "risk",
+    "risks",
+    "overview",
+    "exchange"
+  ],
+  "dynamic_keywords": [
+    "securities",
+    "markets",
+    "cboe",
+    "investment",
+    "trading",
+    "financial",
+    "quarterly",
+    "consolidated",
+    "company",
+    "overview"
+  ]
+}
