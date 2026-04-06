@@ -2,8 +2,12 @@ import yfinance as yf
 from bson import ObjectId
 from fastapi import HTTPException
 from .db import users_col, portfolio_col, transactions_col, auto_trade_col
-from .utils import calculate_profit_rate, calculate_evaluation_amount
-
+from .utils import (
+    calculate_profit_rate,
+    calculate_evaluation_amount,
+    hash_pin,
+    verify_pin,
+)
 
 def get_current_stock_price(symbol: str):
     ticker = yf.Ticker(symbol)
@@ -27,7 +31,7 @@ def get_current_stock_price(symbol: str):
     }
 
 
-def create_account(nickname: str, email: str | None):
+def create_account(nickname: str, email: str | None, pin: str):
     if users_col is None:
         raise HTTPException(status_code=500, detail="MongoDB가 설정되지 않았습니다.")
 
@@ -36,19 +40,26 @@ def create_account(nickname: str, email: str | None):
         "email": email,
         "virtual_cash": 10000000,
         "initial_seed_money": 10000000,
+        "pin_hash": hash_pin(pin),
     }
     result = users_col.insert_one(doc)
     doc["_id"] = str(result.inserted_id)
+
+    # 응답에는 pin_hash 안 보여주기
+    doc.pop("pin_hash", None)
     return doc
 
 
-def buy_stock(user_id: str, symbol: str, quantity: int):
+def buy_stock(user_id: str, symbol: str, quantity: int, pin: str):
     if users_col is None:
         raise HTTPException(status_code=500, detail="MongoDB가 설정되지 않았습니다.")
 
     user = users_col.find_one({"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(status_code=404, detail="유저를 찾을 수 없습니다.")
+
+    if not verify_pin(pin, user.get("pin_hash", "")):
+        raise HTTPException(status_code=403, detail="PIN 번호가 올바르지 않습니다.")
 
     stock = get_current_stock_price(symbol)
     price = stock["current_price"]
@@ -113,48 +124,66 @@ def buy_stock(user_id: str, symbol: str, quantity: int):
     }
 
 
-def sell_stock(user_id: str, symbol: str, quantity: int):
+def buy_stock(user_id: str, symbol: str, quantity: int, pin: str):
+    if users_col is None:
+        raise HTTPException(status_code=500, detail="MongoDB가 설정되지 않았습니다.")
+
     user = users_col.find_one({"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(status_code=404, detail="유저를 찾을 수 없습니다.")
 
+    if not verify_pin(pin, user.get("pin_hash", "")):
+        raise HTTPException(status_code=403, detail="PIN 번호가 올바르지 않습니다.")
+
     stock = get_current_stock_price(symbol)
     price = stock["current_price"]
+
+    fee_rate = 0.0005
+    total_amount = price * quantity
+    fee = int(total_amount * fee_rate)
+    total_cost = total_amount + fee
+
+    if user["virtual_cash"] < total_cost:
+        raise HTTPException(status_code=400, detail="가상머니가 부족합니다.")
 
     portfolio = portfolio_col.find_one({
         "user_id": user_id,
         "symbol": stock["symbol"]
     })
+
     if not portfolio:
-        raise HTTPException(status_code=404, detail="보유 중인 종목이 없습니다.")
-    if portfolio["quantity"] < quantity:
-        raise HTTPException(status_code=400, detail="매도 수량이 보유 수량보다 많습니다.")
+        portfolio = {
+            "user_id": user_id,
+            "symbol": stock["symbol"],
+            "company_name": stock["company_name"],
+            "quantity": 0,
+            "avg_price": 0.0,
+        }
 
-    fee_rate = 0.0005
-    total_amount = price * quantity
-    fee = int(total_amount * fee_rate)
-    final_received = total_amount - fee
+    new_total_quantity = portfolio["quantity"] + quantity
+    new_avg_price = (
+        (portfolio["quantity"] * portfolio["avg_price"]) + total_amount
+    ) / new_total_quantity
 
-    new_quantity = portfolio["quantity"] - quantity
+    portfolio["quantity"] = new_total_quantity
+    portfolio["avg_price"] = new_avg_price
 
     users_col.update_one(
         {"_id": ObjectId(user_id)},
-        {"$set": {"virtual_cash": user["virtual_cash"] + final_received}},
+        {"$set": {"virtual_cash": user["virtual_cash"] - total_cost}},
     )
 
-    if new_quantity == 0:
-        portfolio_col.delete_one({"_id": portfolio["_id"]})
-    else:
-        portfolio_col.update_one(
-            {"_id": portfolio["_id"]},
-            {"$set": {"quantity": new_quantity}},
-        )
+    portfolio_col.update_one(
+        {"user_id": user_id, "symbol": stock["symbol"]},
+        {"$set": portfolio},
+        upsert=True,
+    )
 
     transactions_col.insert_one({
         "user_id": user_id,
         "symbol": stock["symbol"],
         "company_name": stock["company_name"],
-        "type": "SELL",
+        "type": "BUY",
         "quantity": quantity,
         "price": price,
         "total_amount": total_amount,

@@ -18,7 +18,7 @@ router = APIRouter(prefix="/api/simulation", tags=["simulation"])
 def create_simulation_account(payload: CreateAccountRequest):
     return {
         "success": True,
-        "data": create_account(payload.nickname, payload.email),
+        "data": create_account(payload.nickname, payload.email, payload.pin),
     }
 
 
@@ -34,7 +34,7 @@ def get_stock(symbol: str):
 def buy(payload: BuySellRequest):
     return {
         "success": True,
-        "data": buy_stock(payload.user_id, payload.symbol, payload.quantity),
+        "data": buy_stock(payload.user_id, payload.symbol, payload.quantity, payload.pin),
     }
 
 
@@ -42,7 +42,7 @@ def buy(payload: BuySellRequest):
 def sell(payload: BuySellRequest):
     return {
         "success": True,
-        "data": sell_stock(payload.user_id, payload.symbol, payload.quantity),
+        "data": sell_stock(payload.user_id, payload.symbol, payload.quantity, payload.pin),
     }
 
 
