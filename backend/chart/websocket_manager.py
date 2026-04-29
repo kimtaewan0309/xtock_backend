@@ -27,7 +27,7 @@ class SymbolHub:
             })
 
         if self.stream_task is None or self.stream_task.done():
-            self.stream_task = asyncio.create_task(self.run_polling())
+            self.stream_task = asyncio.create_task(self.run_stream())
 
     def disconnect(self, websocket: WebSocket):
         self.clients.discard(websocket)
@@ -44,46 +44,77 @@ class SymbolHub:
         for ws in dead_clients:
             self.clients.discard(ws)
 
-    async def run_polling(self):
-        ticker = yf.Ticker(self.symbol)
+    async def run_stream(self):
+        """
+        Yahoo Finance 실시간 WebSocket 스트림 사용
+        """
+        try:
+            async with yf.AsyncWebSocket(verbose=False) as ws:
+                await ws.subscribe(self.symbol)
 
-        while self.clients:
-            try:
-                price = None
+                async def handle_message(message):
+                    parsed = self.parse_message(message)
+                    if not parsed:
+                        return
 
-                try:
-                    fi = ticker.fast_info
-                    if fi:
-                        price = fi.get("lastPrice") or fi.get("last_price")
-                except Exception:
-                    pass
-
-                if price is None:
-                    hist = ticker.history(period="1d", interval="1m")
-                    if not hist.empty:
-                        price = float(hist["Close"].dropna().iloc[-1])
-
-                if price is not None:
-                    now_iso = datetime.now(timezone.utc).astimezone().isoformat()
-                    self.last_price = float(price)
-                    self.last_time = now_iso
+                    self.last_price = parsed["price"]
+                    self.last_time = parsed["time"]
 
                     await self.broadcast({
                         "type": "tick",
                         "symbol": self.symbol,
                         "price": self.last_price,
                         "time": self.last_time,
-                        "source": "polling",
+                        "source": "yfinance_stream",
                     })
 
-            except Exception as e:
-                await self.broadcast({
-                    "type": "error",
-                    "symbol": self.symbol,
-                    "message": str(e),
-                })
+                # listen()은 message_handler를 받아 실시간 메시지를 처리
+                await ws.listen(message_handler=handle_message)
 
-            await asyncio.sleep(2)
+        except Exception as e:
+            # 스트림 실패 시 에러 전송
+            await self.broadcast({
+                "type": "error",
+                "symbol": self.symbol,
+                "message": str(e),
+            })
+
+    def parse_message(self, message) -> Optional[dict]:
+        """
+        Yahoo/yfinance 메시지는 종목과 필드 구성이 조금 다를 수 있어서
+        가격/시간 필드를 방어적으로 추출
+        """
+        if not isinstance(message, dict):
+            return None
+
+        price = (
+            message.get("price")
+            or message.get("regularMarketPrice")
+            or message.get("lastPrice")
+            or message.get("last_price")
+            or message.get("p")
+        )
+
+        if price is None:
+            return None
+
+        ts = message.get("time") or message.get("timestamp") or message.get("t")
+
+        if isinstance(ts, (int, float)):
+            if ts > 1e12:
+                dt_obj = datetime.fromtimestamp(ts / 1000, tz=timezone.utc).astimezone()
+            else:
+                dt_obj = datetime.fromtimestamp(ts, tz=timezone.utc).astimezone()
+            time_iso = dt_obj.isoformat()
+        elif isinstance(ts, str):
+            time_iso = ts
+        else:
+            time_iso = datetime.now(timezone.utc).astimezone().isoformat()
+
+        return {
+            "price": float(price),
+            "time": time_iso,
+        }
 
 
 symbol_hubs: Dict[str, SymbolHub] = {}
